@@ -93,7 +93,6 @@
 
         c = c.match(reghex).slice(1);
         if(c[0].length === 1) c = c.map(x => x + x);
-        c.push(1);
 
         return c.map(x => parseInt(x, 16))
     }
@@ -126,26 +125,26 @@
 
         document.body.style.setProperty(
             '--c',
-            `rgba(
+            `rgb(
 			${INI.map((c, i) => Math.round(c + timing(k)*RANGE[i])).join(',')})`
         );
 
         document.body.style.setProperty(
             '--c1',
-            `rgba(
+            `rgb(
 			${INI1.map((c, i) => Math.round(c + timing(k)*RANGE1[i])).join(',')})`
         );
 
-        rID = requestAnimationFrame(update)
+        rID = requestAnimationFrame(update);
 
         if(!(f%NF)) {
             stopAni();
             INI = FIN;
-            FIN = [Math.round(Math.random() * 255), Math.round(Math.random() * 255), Math.round(Math.random() * 255), 1];
+            FIN = [Math.round(Math.random() * 255), Math.round(Math.random() * 255), Math.round(Math.random() * 255)];
             RANGE.splice(0, 0, ...INI.map((c, i) => FIN[i] - c));
 
             INI1 = FIN1;
-            FIN1 = [Math.round(Math.random() * 255), Math.round(Math.random() * 255), Math.round(Math.random() * 255), 1];
+            FIN1 = [Math.round(Math.random() * 255), Math.round(Math.random() * 255), Math.round(Math.random() * 255)];
             RANGE1.splice(0, 0, ...INI1.map((c, i) => FIN1[i] - c));
 
             f = 0;
