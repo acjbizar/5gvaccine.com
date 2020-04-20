@@ -16,7 +16,7 @@
         }
 
         html {
-            background: white;
+            background: lime;
             color: white;
             font: normal 100%/.875 futura-pt, sans-serif, serif;
             font-size: calc(10px + 1vh + 1vw + 10vmin);
@@ -24,11 +24,20 @@
             text-rendering: optimizeLegibility;
         }
 
+        body {
+            --c-ini: #ff9800;
+            --c-fin: #a048b9;
+            --c: var(--c-ini);
+            --c1: var(--c-fin);
+            background: radial-gradient(var(--c, var(--c-ini)), var(--c1));
+        }
+
         main {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             padding: 1.5vmin;
+            word-spacing: -.125em;
         }
 
         #question {
@@ -36,8 +45,10 @@
             background: black;
             display: flex;
             flex: 1 0 100%;
+            justify-content: center;
             margin: 1.5vmin;
             padding: .75vmin;
+            text-shadow: 0 0 .25em var(--c);
         }
 
         #answers {
@@ -48,10 +59,21 @@
         #answers a {
             align-items: center;
             background: black;
+            color: white;
             display: flex;
             flex: 1 1 auto;
+            justify-content: center;
             margin: 1.5vmin;
             padding: .75vmin;
+            text-shadow: 0 0 .25em var(--c);
+        }
+
+        #answers a:hover {
+            background: rgba(255, 255, 255, .9);
+            color: black;
+            outline: 1px solid white;
+            outline-offset: -1px;
+            text-shadow: none;
         }
     </style>
 </head>
@@ -59,9 +81,91 @@
 <main>
     <div id="question">Would you like a vaccine against 5G?</div>
     <div id="answers">
-        <a href="/yes" id="yes">Yes, because 5G</a>
-        <a href="/no" id="no">No, because vaccine</a>
+        <a href="/?yes" id="yes">Yes, because 5G</a>
+        <a href="/?no" id="no">No, because vaccine</a>
     </div>
 </main>
+<script>
+    "use strict";
+
+    function getRGB(c) {
+        let reghex = /^\#([a-f\d]{1,2})([a-f\d]{1,2})([a-f\d]{1,2})$/i;
+
+        c = c.match(reghex).slice(1);
+        if(c[0].length === 1) c = c.map(x => x + x);
+        c.push(1);
+
+        return c.map(x => parseInt(x, 16))
+    }
+
+    const NF = 60,
+        S = getComputedStyle(document.body),
+        RANGE = [],
+        RANGE1 = [];
+
+    let INI = getRGB(S.getPropertyValue('--c-ini').trim());
+    let FIN = getRGB(S.getPropertyValue('--c-fin').trim());
+    let INI1 = getRGB(S.getPropertyValue('--c-ini').trim());
+    let FIN1 = getRGB(S.getPropertyValue('--c-fin').trim());
+
+    let rID = null, f = 0, dir = -1, range;
+
+    function stopAni() {
+        cancelAnimationFrame(rID);
+        rID = null;
+    }
+
+    function timing(k) {
+        return k;
+    }
+
+    function update() {
+
+        f += dir;
+        let k = f/NF;
+
+        document.body.style.setProperty(
+            '--c',
+            `rgba(
+			${INI.map((c, i) => Math.round(c + timing(k)*RANGE[i])).join(',')})`
+        );
+
+        document.body.style.setProperty(
+            '--c1',
+            `rgba(
+			${INI1.map((c, i) => Math.round(c + timing(k)*RANGE1[i])).join(',')})`
+        );
+
+        rID = requestAnimationFrame(update)
+
+        if(!(f%NF)) {
+            stopAni();
+            INI = FIN;
+            FIN = [Math.round(Math.random() * 255), Math.round(Math.random() * 255), Math.round(Math.random() * 255), 1];
+            RANGE.splice(0, 0, ...INI.map((c, i) => FIN[i] - c));
+
+            INI1 = FIN1;
+            FIN1 = [Math.round(Math.random() * 255), Math.round(Math.random() * 255), Math.round(Math.random() * 255), 1];
+            RANGE1.splice(0, 0, ...INI1.map((c, i) => FIN1[i] - c));
+
+            f = 0;
+
+            update();
+        }
+
+    }
+
+    (function init() {
+        RANGE.splice(0, 0, ...INI.map((c, i) => FIN[i] - c));
+        RANGE1.splice(0, 0, ...INI1.map((c, i) => FIN1[i] - c));
+    })();
+
+    addEventListener('load', e => {
+        if(rID) stopAni();
+        dir *= -1;
+        update();
+    }, false);
+
+</script>
 </body>
 </html>
