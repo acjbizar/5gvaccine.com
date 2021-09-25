@@ -68,7 +68,8 @@
             text-shadow: 0 0 .25em var(--c);
         }
 
-        #answers a:hover {
+        #answers a:hover,
+        #answers a.active {
             background: rgba(255, 255, 255, .9);
             color: black;
             outline: 1px solid white;
@@ -96,6 +97,18 @@
 </main>
 <script>
     "use strict";
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const yes = document.getElementById('yes');
+    const no = document.getElementById('no');
+
+    if(searchParams.has('yes') === true) {
+        yes.classList.add('active');
+    }
+
+    if(searchParams.has('no') === true) {
+        no.classList.add('active');
+    }
 
     function getRGB(c) {
         let reghex = /^\#([a-f\d]{1,2})([a-f\d]{1,2})([a-f\d]{1,2})$/i;
