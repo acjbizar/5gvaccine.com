@@ -1,2 +1,5 @@
 
+User-agent: *
+Allow: /
+
 Sitemap: https://5gvaccine.com/sitemap.xml

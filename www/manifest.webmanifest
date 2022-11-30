@@ -1,0 +1,13 @@
+{
+    "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+    "lang": "en",
+    "dir": "ltr",
+    "name": "5G Vaccine",
+    "display": "fullscreen",
+    "icons": [{
+        "src": "https://5gvaccine.com/favicon.ico"
+    }],
+    "scope": "/",
+    "id": "https://5gvaccine.com/",
+    "theme_color": "black"
+}
