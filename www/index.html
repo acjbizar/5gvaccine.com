@@ -35,6 +35,7 @@
             color: white;
             font: normal 100%/.875 futura-pt, sans-serif, serif;
             font-size: calc(10px + 1vh + 1vw + 10vmin);
+            hyphens: auto;
             text-align: center;
             text-rendering: optimizeLegibility;
         }
@@ -68,7 +69,15 @@
 
         #answers {
             display: flex;
-            flex: 1 0 100%;
+            flex: 0 0 100%;
+            flex-direction: column;
+        }
+
+        @media (min-width: 300px) {
+            #answers {
+                flex: 1 0 100%;
+                flex-direction: row;
+            }
         }
 
         #answers a {
