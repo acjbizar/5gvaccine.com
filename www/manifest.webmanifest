@@ -4,9 +4,14 @@
     "dir": "ltr",
     "name": "5G Vaccine",
     "display": "fullscreen",
-    "icons": [{
+    "icons": [
+        {
+        "src": "https://5gvaccine.com/apple-touch-icon.png"
+        },
+        {
         "src": "https://5gvaccine.com/favicon.ico"
-    }],
+        }
+    ],
     "scope": "/",
     "id": "https://5gvaccine.com/",
     "theme_color": "black"
